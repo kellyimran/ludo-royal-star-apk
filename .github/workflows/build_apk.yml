@@ -1,0 +1,160 @@
+# FILE: .github/workflows/build_apk.yml
+name: Build Ultra-HD Ludo Royal Star APK (100% Ad-Free)
+
+permissions:
+  contents: write
+
+on:
+  push:
+    branches: [ main, master ]
+  workflow_dispatch:
+
+jobs:
+  build-android-apk:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 1. Checkout Repository Code
+        uses: actions/checkout@v4
+
+      - name: 2. Setup Node.js 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: 3. Setup Java JDK 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      - name: 4. Setup Android SDK
+        uses: android-actions/setup-android@v3
+
+      - name: 5. Install Ultra-HD Icon Rendering Tools (rsvg & ImageMagick)
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y librsvg2-bin imagemagick
+
+      - name: 6. Generate Ultra-HD 1024x1024 App Logo & Android Mipmap Icons
+        run: |
+          if [ ! -f "logo.svg" ]; then
+            cat << 'EOF' > logo.svg
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="1024" height="1024">
+            <defs>
+              <radialGradient id="bgGlow" cx="50%" cy="35%" r="70%">
+                <stop offset="0%" stop-color="#1e293b"/><stop offset="60%" stop-color="#0f172a"/><stop offset="100%" stop-color="#020617"/>
+              </radialGradient>
+              <linearGradient id="goldFrame" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#fef08a"/><stop offset="30%" stop-color="#f59e0b"/><stop offset="70%" stop-color="#b45309"/><stop offset="100%" stop-color="#fde047"/>
+              </linearGradient>
+              <linearGradient id="redGem" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#ff6b6b"/><stop offset="100%" stop-color="#991b1b"/>
+              </linearGradient>
+              <linearGradient id="greenGem" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#4ade80"/><stop offset="100%" stop-color="#14532d"/>
+              </linearGradient>
+              <linearGradient id="yellowGem" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#fef08a"/><stop offset="100%" stop-color="#854d0e"/>
+              </linearGradient>
+              <linearGradient id="blueGem" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#60a5fa"/><stop offset="100%" stop-color="#1e3a8a"/>
+              </linearGradient>
+            </defs>
+            <rect x="24" y="24" width="976" height="976" rx="220" fill="url(#goldFrame)"/>
+            <rect x="54" y="54" width="916" height="916" rx="194" fill="url(#bgGlow)"/>
+            <rect x="148" y="180" width="335" height="335" rx="52" fill="url(#redGem)" stroke="#fca5a5" stroke-width="6"/>
+            <rect x="541" y="180" width="335" height="335" rx="52" fill="url(#greenGem)" stroke="#86efac" stroke-width="6"/>
+            <rect x="148" y="573" width="335" height="335" rx="52" fill="url(#blueGem)" stroke="#93c5fd" stroke-width="6"/>
+            <rect x="541" y="573" width="335" height="335" rx="52" fill="url(#yellowGem)" stroke="#fde047" stroke-width="6"/>
+            <circle cx="290" cy="340" r="65" fill="url(#redGem)" stroke="#fff" stroke-width="10"/>
+            <circle cx="734" cy="340" r="65" fill="url(#greenGem)" stroke="#fff" stroke-width="10"/>
+            <circle cx="290" cy="750" r="65" fill="url(#blueGem)" stroke="#fff" stroke-width="10"/>
+            <circle cx="734" cy="750" r="65" fill="url(#yellowGem)" stroke="#fff" stroke-width="10"/>
+            <g transform="translate(512, 544) rotate(-10)">
+              <rect x="-150" y="-150" width="300" height="300" rx="64" fill="#ffffff" stroke="url(#goldFrame)" stroke-width="14"/>
+              <circle cx="-75" cy="-80" r="26" fill="#dc2626"/><circle cx="75" cy="-80" r="26" fill="#dc2626"/>
+              <circle cx="-75" cy="0" r="26" fill="#dc2626"/><circle cx="75" cy="0" r="26" fill="#dc2626"/>
+              <circle cx="-75" cy="80" r="26" fill="#dc2626"/><circle cx="75" cy="80" r="26" fill="#dc2626"/>
+            </g>
+            <path d="M352 175 L392 85 L512 145 L632 85 L672 175 Z" fill="url(#goldFrame)" stroke="#fff" stroke-width="6"/>
+          </svg>
+          EOF
+          fi
+          rsvg-convert -w 1024 -h 1024 logo.svg -o icon-1024.png
+          rsvg-convert -w 512  -h 512  logo.svg -o icon-512.png
+          rsvg-convert -w 192  -h 192  logo.svg -o icon-xxxhdpi.png
+          rsvg-convert -w 144  -h 144  logo.svg -o icon-xxhdpi.png
+          rsvg-convert -w 96   -h 96   logo.svg -o icon-xhdpi.png
+          rsvg-convert -w 72   -h 72   logo.svg -o icon-hdpi.png
+          rsvg-convert -w 48   -h 48   logo.svg -o icon-mdpi.png
+
+      - name: 7. Create Clean Cordova Android Project & Inject Game + Icons
+        run: |
+          npm install -g cordova
+          cordova create ludoapp com.royalstar.ludopro "Ludo Star Pro"
+          cp index.html ludoapp/www/index.html
+          cp icon-512.png ludoapp/icon.png
+          mkdir -p ludoapp/res/icon/android
+          cp icon-mdpi.png    ludoapp/res/icon/android/icon-mdpi.png
+          cp icon-hdpi.png    ludoapp/res/icon/android/icon-hdpi.png
+          cp icon-xhdpi.png   ludoapp/res/icon/android/icon-xhdpi.png
+          cp icon-xxhdpi.png  ludoapp/res/icon/android/icon-xxhdpi.png
+          cp icon-xxxhdpi.png ludoapp/res/icon/android/icon-xxxhdpi.png
+
+          cat << 'EOF' > ludoapp/config.xml
+          <?xml version='1.0' encoding='utf-8'?>
+          <widget id="com.royalstar.ludopro" version="2.0.0" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+              <name>Ludo Star Pro</name>
+              <description>Royal Arrow and Knockout Edition - 100% Offline</description>
+              <author email="studio@royalstar.local" href="https://royalstar.local">Royal Star Studio</author>
+              <content src="index.html" />
+              <icon src="icon.png" />
+              <platform name="android">
+                  <preference name="Fullscreen" value="true" />
+                  <preference name="Orientation" value="portrait" />
+                  <preference name="BackgroundColor" value="0xff090d16" />
+                  <preference name="DisallowOverscroll" value="true" />
+                  <preference name="AndroidWindowSplashScreenAnimatedIcon" value="res/icon/android/icon-xxxhdpi.png" />
+                  <preference name="AndroidWindowSplashScreenBackground" value="#090d16" />
+                  <icon density="mdpi" src="res/icon/android/icon-mdpi.png" />
+                  <icon density="hdpi" src="res/icon/android/icon-hdpi.png" />
+                  <icon density="xhdpi" src="res/icon/android/icon-xhdpi.png" />
+                  <icon density="xxhdpi" src="res/icon/android/icon-xxhdpi.png" />
+                  <icon density="xxxhdpi" src="res/icon/android/icon-xxxhdpi.png" />
+              </platform>
+          </widget>
+          EOF
+
+          cd ludoapp
+          cordova platform add android
+
+          # Force-replace any default Cordova mipmap icons (including adaptive foreground/background) with our Ultra HD Icon
+          for dir in platforms/android/app/src/main/res/mipmap-*; do
+            if [ -d "$dir" ]; then
+              cp ../icon-xxxhdpi.png "$dir/ic_launcher.png" 2>/dev/null || true
+              cp ../icon-xxxhdpi.png "$dir/ic_launcher_round.png" 2>/dev/null || true
+              cp ../icon-xxxhdpi.png "$dir/ic_launcher_foreground.png" 2>/dev/null || true
+            fi
+          done
+          # Remove adaptive XML overrides so Android uses our full Ultra-HD 3D Squircle PNG directly
+          rm -rf platforms/android/app/src/main/res/mipmap-anydpi-v26
+
+          cordova build android --debug
+
+      - name: 8. Upload Final Ad-Free APK & Ultra-HD Logo Preview
+        uses: actions/upload-artifact@v4
+        with:
+          name: Ludo-Star-Pro-UltraHD-APK
+          path: |
+            ludoapp/platforms/android/app/build/outputs/apk/debug/app-debug.apk
+            icon-1024.png
+
+      - name: 9. Publish GitHub Release (direct APK download link)
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: build-${{ github.run_number }}
+          name: Ludo Star Pro - Build ${{ github.run_number }}
+          files: |
+            ludoapp/platforms/android/app/build/outputs/apk/debug/app-debug.apk
+            icon-1024.png
