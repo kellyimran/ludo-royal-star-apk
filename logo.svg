@@ -1,0 +1,118 @@
+<!-- FILE: logo.svg (Ultra HD 1024x1024 Professional Ludo App Icon) -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="1024" height="1024">
+  <defs>
+    <!-- Background & Gold Frame Gradients -->
+    <radialGradient id="bgGlow" cx="50%" cy="35%" r="70%">
+      <stop offset="0%" stop-color="#1e293b"/>
+      <stop offset="60%" stop-color="#0f172a"/>
+      <stop offset="100%" stop-color="#020617"/>
+    </radialGradient>
+    <linearGradient id="goldFrame" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#fef08a"/>
+      <stop offset="25%" stop-color="#f59e0b"/>
+      <stop offset="50%" stop-color="#b45309"/>
+      <stop offset="75%" stop-color="#fbbf24"/>
+      <stop offset="100%" stop-color="#78350f"/>
+    </linearGradient>
+    <linearGradient id="redGem" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ff6b6b"/>
+      <stop offset="50%" stop-color="#dc2626"/>
+      <stop offset="100%" stop-color="#7f1d1d"/>
+    </linearGradient>
+    <linearGradient id="greenGem" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#4ade80"/>
+      <stop offset="50%" stop-color="#16a34a"/>
+      <stop offset="100%" stop-color="#14532d"/>
+    </linearGradient>
+    <linearGradient id="yellowGem" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#fef08a"/>
+      <stop offset="50%" stop-color="#eab308"/>
+      <stop offset="100%" stop-color="#713f12"/>
+    </linearGradient>
+    <linearGradient id="blueGem" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#60a5fa"/>
+      <stop offset="50%" stop-color="#2563eb"/>
+      <stop offset="100%" stop-color="#1e3a8a"/>
+    </linearGradient>
+    <linearGradient id="diceBody" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ffffff"/>
+      <stop offset="70%" stop-color="#e2e8f0"/>
+      <stop offset="100%" stop-color="#94a3b8"/>
+    </linearGradient>
+    <filter id="heavyShadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="18" stdDeviation="16" flood-color="#000000" flood-opacity="0.75"/>
+    </filter>
+    <filter id="goldGlow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="4" stdDeviation="10" flood-color="#fbbf24" flood-opacity="0.65"/>
+    </filter>
+  </defs>
+
+  <!-- 1. Outer 24K Gold Squircle App Icon Border -->
+  <rect x="24" y="24" width="976" height="976" rx="220" fill="url(#goldFrame)" filter="url(#heavyShadow)"/>
+  <rect x="52" y="52" width="920" height="920" rx="196" fill="url(#bgGlow)"/>
+
+  <!-- 2. Inner Board Shield (Rotated 3D Perspective) -->
+  <g filter="url(#heavyShadow)">
+    <!-- Red Quadrant (Top-Left) -->
+    <rect x="148" y="180" width="335" height="335" rx="52" fill="url(#redGem)" stroke="#fca5a5" stroke-width="6"/>
+    <!-- Green Quadrant (Top-Right) -->
+    <rect x="541" y="180" width="335" height="335" rx="52" fill="url(#greenGem)" stroke="#86efac" stroke-width="6"/>
+    <!-- Blue Quadrant (Bottom-Left) -->
+    <rect x="148" y="573" width="335" height="335" rx="52" fill="url(#blueGem)" stroke="#93c5fd" stroke-width="6"/>
+    <!-- Yellow Quadrant (Bottom-Right) -->
+    <rect x="541" y="573" width="335" height="335" rx="52" fill="url(#yellowGem)" stroke="#fde047" stroke-width="6"/>
+  </g>
+
+  <!-- 3. 3D Glossy Ludo Pawns in Each Quadrant -->
+  <!-- Red Pawn -->
+  <g filter="url(#heavyShadow)">
+    <circle cx="290" cy="340" r="68" fill="url(#redGem)" stroke="#ffffff" stroke-width="10"/>
+    <circle cx="272" cy="318" r="22" fill="#ffffff" fill-opacity="0.55"/>
+  </g>
+  <!-- Green Pawn -->
+  <g filter="url(#heavyShadow)">
+    <circle cx="734" cy="340" r="68" fill="url(#greenGem)" stroke="#ffffff" stroke-width="10"/>
+    <circle cx="716" cy="318" r="22" fill="#ffffff" fill-opacity="0.55"/>
+  </g>
+  <!-- Blue Pawn -->
+  <g filter="url(#heavyShadow)">
+    <circle cx="290" cy="750" r="68" fill="url(#blueGem)" stroke="#ffffff" stroke-width="10"/>
+    <circle cx="272" cy="728" r="22" fill="#ffffff" fill-opacity="0.55"/>
+  </g>
+  <!-- Yellow Pawn -->
+  <g filter="url(#heavyShadow)">
+    <circle cx="734" cy="750" r="68" fill="url(#yellowGem)" stroke="#ffffff" stroke-width="10"/>
+    <circle cx="716" cy="728" r="22" fill="#ffffff" fill-opacity="0.55"/>
+  </g>
+
+  <!-- 4. Golden Arrow Boost Ring Around Center -->
+  <circle cx="512" cy="544" r="215" fill="none" stroke="url(#goldFrame)" stroke-width="18" stroke-dasharray="95 35" filter="url(#goldGlow)"/>
+
+  <!-- 5. Center 3D Bouncing Dice (Rolled 6) -->
+  <g transform="translate(512, 544) rotate(-10)" filter="url(#heavyShadow)">
+    <rect x="-150" y="-150" width="300" height="300" rx="64" fill="url(#diceBody)" stroke="url(#goldFrame)" stroke-width="14"/>
+    <!-- 6 Red Pips -->
+    <circle cx="-75" cy="-80" r="26" fill="#dc2626"/>
+    <circle cx="75"  cy="-80" r="26" fill="#dc2626"/>
+    <circle cx="-75" cy="0"   r="26" fill="#dc2626"/>
+    <circle cx="75"  cy="0"   r="26" fill="#dc2626"/>
+    <circle cx="-75" cy="80"  r="26" fill="#dc2626"/>
+    <circle cx="75"  cy="80"  r="26" fill="#dc2626"/>
+    <!-- Gloss Highlight -->
+    <path d="M-125 -120 Q0 -145 125 -120" stroke="#ffffff" stroke-width="10" fill="none" opacity="0.8" stroke-linecap="round"/>
+  </g>
+
+  <!-- 6. Top Royal 24K Gold Crown -->
+  <g filter="url(#goldGlow)">
+    <path d="M352 175 L392 85 L512 145 L632 85 L672 175 Z" fill="url(#goldFrame)" stroke="#ffffff" stroke-width="6" stroke-linejoin="round"/>
+    <circle cx="392" cy="75" r="16" fill="#fef08a"/>
+    <circle cx="512" cy="65" r="20" fill="#ef4444" stroke="#fef08a" stroke-width="5"/>
+    <circle cx="632" cy="75" r="16" fill="#fef08a"/>
+  </g>
+
+  <!-- 7. Bottom Royal Star Ribbon -->
+  <g filter="url(#heavyShadow)">
+    <rect x="232" y="845" width="560" height="96" rx="48" fill="url(#goldFrame)" stroke="#ffffff" stroke-width="6"/>
+    <text x="512" y="908" font-family="Arial, sans-serif" font-size="48" font-weight="900" fill="#0f172a" text-anchor="middle" letter-spacing="4">LUDO STAR PRO</text>
+  </g>
+</svg>
