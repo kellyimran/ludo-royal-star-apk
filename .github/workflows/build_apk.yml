@@ -30,6 +30,11 @@ jobs:
 
       - name: 4. Setup Android SDK
         uses: android-actions/setup-android@v3
+        with:
+          # FIX (build #1 failure): the action's default package list includes the legacy
+          # 'tools' package, which Google removed - sdkmanager fails with exit code 1.
+          # Override with only the packages Cordova actually needs.
+          packages: 'platform-tools platforms;android-34 platforms;android-35 build-tools;34.0.0 build-tools;35.0.0'
 
       - name: 5. Install Ultra-HD Icon Rendering Tools (rsvg & ImageMagick)
         run: |
